@@ -1,0 +1,13 @@
+android {
+    ...
+    buildTypes {
+        debug {
+            buildConfigField "String", "API_KEY", "\"${project.hasProperty('_API_KEY') ? API_KEY : 'default-key'}\""
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
+}
