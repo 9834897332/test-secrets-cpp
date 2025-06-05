@@ -1,19 +1,20 @@
-name: Safe Secret Runtime Test
+name: Secure Runtime Secret Test
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:  # manually triggered
 
 jobs:
   run:
     runs-on: ubuntu-latest
     env:
-      MY_SECRET_VALUE: ${{ secrets.SECRET_CONFIG_FILE }}
+      MY_SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Compile App
-        run: g++ main.cpp -o myapp
+      - name: Compile without secrets
+        run: g++ main.cpp -o test-app
 
-      - name: Run App
-        run: ./myapp
+      - name: Run App with injected secret
+        run: ./test-app
