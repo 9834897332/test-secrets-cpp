@@ -1,12 +1,17 @@
-// main.cpp
 #include <iostream>
-#include <cstdlib>
+#include <fstream>
+#include <string>
 
 int main() {
-    const char* secret = std::getenv("MY_SECRET_KEY");
-    if (secret)
-        std::cout << "Runtime secret: " << secret << std::endl;
-    else
-        std::cerr << "Secret not found in env!" << std::endl;
+    std::ifstream file("secret_config.cpp");
+    if (file.is_open()) {
+        std::string line;
+        while (getline(file, line)) {
+            std::cout << line << std::endl; // just to verify it works
+        }
+        file.close();
+    } else {
+        std::cerr << "Unable to open secret_config.cpp\n";
+    }
     return 0;
 }
