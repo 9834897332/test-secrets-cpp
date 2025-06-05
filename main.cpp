@@ -1,3 +1,4 @@
+// main.cpp
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,11 +8,11 @@ int main() {
     if (file.is_open()) {
         std::string line;
         while (getline(file, line)) {
-            std::cout << line << std::endl; // just to verify it works
+            std::cout << line << std::endl;
         }
         file.close();
     } else {
-        std::cerr << "Unable to open secret_config.cpp\n";
+        std::cerr << "secret_config.cpp not found.\n";
     }
     return 0;
 }

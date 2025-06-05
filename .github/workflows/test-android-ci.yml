@@ -1,12 +1,10 @@
-name: Test Secret File Injection
+name: Inject Secret at Runtime Only
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
-  test-secret-injection:
+  test-secret:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,10 +14,13 @@ jobs:
       - name: Restore Secret File at Runtime
         run: |
           echo "${{ secrets.SECRET_CONFIG_FILE }}" > secret_config.cpp
-          echo "Secret file written at runtime ✅"
+          echo "Secret file written."
 
-      - name: Compile
-        run: g++ main.cpp -o test-app
+      - name: Compile App
+        run: g++ main.cpp -o myapp
 
       - name: Run App
-        run: ./test-app
+        run: ./myapp
+
+      - name: Cleanup
+        run: rm -f secret_config.cpp
