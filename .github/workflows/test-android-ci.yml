@@ -1,7 +1,7 @@
 name: Safe Secret Runtime Test
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   run:
@@ -12,8 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Compile App (No secret inside)
+      - name: Compile App
         run: g++ main.cpp -o myapp
 
-      - name: Run App (reads secret from env at runtime)
+      - name: Run App
         run: ./myapp
