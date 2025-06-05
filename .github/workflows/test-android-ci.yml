@@ -1,20 +1,25 @@
-name: Secure Runtime Secret Test
+name: Test Secret File Injection
 
 on:
-  workflow_dispatch:  # manually triggered
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  run:
+  test-secret-injection:
     runs-on: ubuntu-latest
-    env:
-      MY_SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Compile without secrets
+      - name: Restore Secret File at Runtime
+        run: |
+          echo "${{ secrets.SECRET_CONFIG_FILE }}" > secret_config.cpp
+          echo "Secret file written at runtime ✅"
+
+      - name: Compile
         run: g++ main.cpp -o test-app
 
-      - name: Run App with injected secret
+      - name: Run App
         run: ./test-app
