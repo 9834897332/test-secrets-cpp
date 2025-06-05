@@ -1,26 +1,19 @@
-name: Inject Secret at Runtime Only
+name: Safe Secret Runtime Test
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-secret:
+  run:
     runs-on: ubuntu-latest
+    env:
+      MY_SECRET_VALUE: ${{ secrets.SECRET_CONFIG_FILE }}
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Restore Secret File at Runtime
-        run: |
-          echo "${{ secrets.SECRET_CONFIG_FILE }}" > secret_config.cpp
-          echo "Secret file written."
-
-      - name: Compile App
+      - name: Compile App (No secret inside)
         run: g++ main.cpp -o myapp
 
-      - name: Run App
+      - name: Run App (reads secret from env at runtime)
         run: ./myapp
-
-      - name: Cleanup
-        run: rm -f secret_config.cpp
